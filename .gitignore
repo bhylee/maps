@@ -1,5 +1,6 @@
 .Rproj.user
-.html
-.png
+*.html
+*.png
 .RData
 .Rhistory
+*.Rproj
