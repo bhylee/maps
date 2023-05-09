@@ -1,16 +1,15 @@
 create_psrc_map <- function(lyr,
                             lyr_data_field,
-                            map_title, map_subtitle,
-                            legend_title, legend_subtitle,
+                            legend_title, 
+                            legend_subtitle,
                             psrc_col_pal,
-                            map_title_position='topleft',
                             map_lat=47.615, map_lon=-122.257, 
                             map_zoom=8.5, wgs84=4326){
   
   # psrc colors need more contrast to work
-  #pal <- leaflet::colorNumeric(palette=psrc_col_pal, domain = lyr_datafield)
+  pal <- leaflet::colorNumeric(palette=psrc_col_pal, domain = lyr_datafield)
   
-  pal<-leaflet::colorNumeric(palette="Blues", domain = lyr_datafield)
+  #pal<-leaflet::colorNumeric(palette="Blues", domain = lyr_datafield)
   
   labels <- paste0('Estimate: ', prettyNum(round(lyr_datafield, -1), big.mark = ",")) %>%
     lapply(htmltools::HTML)
@@ -45,18 +44,12 @@ create_psrc_map <- function(lyr,
                            bringToFront = TRUE),
                          label = labels,
                          labelOptions = leaflet::labelOptions(
-                           style = list("font-weight" = "normal", padding = "3px 8px"),
-                           textsize = "15px",
-                           direction = "auto")) %>%
+                           style = list("font-weight" = "normal", padding = "3px 8px", "font-family" ="Poppins"))) %>%
     
     leaflet::addLegend(pal = pal,
                        values = lyr_datafield,
                        position = "bottomright",
                        title = paste(legend_title, '<br>', legend_subtitle)) %>%
-    
-    leaflet::addControl(html = paste(map_title, '<br>', map_subtitle),
-                        position = map_title_position,
-                        layerId = 'mapTitle') %>%
     
     leaflet::addLayersControl(baseGroups = "CartoDB.VoyagerNoLabels",
                               overlayGroups = c("Labels", "estimate")) %>%
