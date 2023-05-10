@@ -25,8 +25,6 @@ library(sf) # geographic data library
 library(dplyr) # for working with data frames
 library(psrcelmer) # to get data from Elmer
 library(psrcplot) # to get color schemes
-library(htmltools)
-library(htmlwidgets)
 library(mapview)
 ```
 
@@ -35,8 +33,6 @@ library(mapview)
 
 ```{r, results='hide', message=FALSE, warning=FALSE}
 library(psrccensus)
-
-
 Sys.getenv("CENSUS_API_KEY")
 ```
 
@@ -44,15 +40,8 @@ Sys.getenv("CENSUS_API_KEY")
 ### 3. Define create_psrc_map function
 
 
-This R file has a function called create_psrc_map to create a leaflet map for you
-these are the function inputs:
-lyr: sf map layer, the geographic layer including the field you want to map
-lyr_data_field: string, the name of data field you want to map
-legend_title: string, The title in the legend
-legend_subtitle: string, The title in the legend
-psrc_col_pal: string list, color ramp
-map_lat=47.615, map_lon=-122.257: defaults, can be overridden for centering the map
-map_zoom=8.5, wgs84=4326 : defaults, can be overriden, zoom level and projection
+This **map_region.R** file has a function called **create_psrc_map** to create a leaflet map for you
+
 ```{r}
 source('map_region.R')
 ```
@@ -80,7 +69,6 @@ tbl <- big_tbl %>%filter(label=='Estimate!!Total:!!Vietnamese')%>%
 
 ```{r}
 tract_layer_name <- "TRACT2020_NOWATER"
-
 lyr <- st_read_elmergeo(tract_layer_name)
 ```
 
@@ -93,6 +81,22 @@ lyr_datafield<-lyr_data$Total
 
 
 ### 8. Call the function to make the map.
+
+these are the function inputs:
+
+lyr: sf map layer, the geographic layer including the field you want to map
+
+lyr_data_field: string, the name of data field you want to map
+
+legend_title: string, The title in the legend
+
+legend_subtitle: string, The title in the legend
+
+psrc_col_pal: string list, color ramp
+
+map_lat=47.615, map_lon=-122.257: defaults, can be overridden for centering the map
+
+map_zoom=8.5, wgs84=4326 : defaults, can be overriden, zoom level and projection
 ```{r}
 # need to add a white color to ensure contrast
 psrc_purple_plus<-append(psrc_colors$purples_inc, "#FFFFFF", after=0)
