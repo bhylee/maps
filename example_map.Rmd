@@ -25,7 +25,7 @@ library(sf) # geographic data library
 library(dplyr) # for working with data frames
 library(psrcelmer) # to get data from Elmer
 library(psrcplot) # to get color schemes
-library(mapview)
+library(mapview) # for outputting the map to html or png
 ```
 
 
@@ -115,7 +115,7 @@ mapshot(map_it, url= "VietnamesePop.html")
 ```
 
 
-### Step 9. (optional) Save the map as html
+### Step 10. (optional) Save the map as png
 ```{r}
 mapshot(map_it, file= "VietnamesePop.png")
 
