@@ -3,7 +3,7 @@ title: "Template to make PSRC leaflet map"
 author: "PSRC Data Science"
 date: "2023-05"
 output:
-  html_document: default
+  pdf_document: default
 ---
 # How to quickly make a formatted map
 This template shows you how to make a map given a numeric or categorical data item with a geographic id and a shape file with the same ID.
