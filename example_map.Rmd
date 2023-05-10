@@ -1,8 +1,9 @@
 ---
 title: "Template to make PSRC leaflet map"
-author: "suzanne"
-date: "2023-05-05"
-output: html_document
+author: "PSRC Data Science"
+date: "2023-05"
+output:
+  html_document: default
 ---
 # How to quickly make a formatted map
 This template shows you how to make a map given a numeric or categorical data item with a geographic id and a shape file with the same ID.
@@ -13,14 +14,13 @@ a data table with a field to map and an ID,
 a geographic layer with a matching ID
 
 **User options:**
-Map title, Map subtitle,
 Legend tile, Legend subtitle
-psrccolors
+color ramo
 
 
 ### 1. Read in mapping and helper libraries
 
-```{r }
+```{r, results='hide', message=FALSE, warning=FALSE}
 library(sf) # geographic data library
 library(dplyr) # for working with data frames
 library(psrcelmer) # to get data from Elmer
@@ -33,7 +33,7 @@ library(mapview)
 
 ### 2. Read in any other libraries or keys you need
 
-```{r}
+```{r, results='hide', message=FALSE, warning=FALSE}
 library(psrccensus)
 
 
@@ -44,31 +44,31 @@ Sys.getenv("CENSUS_API_KEY")
 ### 3. Define create_psrc_map function
 
 
-
-
-
-creating starting point, middle point, end point colors
-
 This R file has a function called create_psrc_map to create a leaflet map for you
+these are the function inputs:
+lyr: sf map layer, the geographic layer including the field you want to map
+lyr_data_field: string, the name of data field you want to map
+legend_title: string, The title in the legend
+legend_subtitle: string, The title in the legend
+psrc_col_pal: string list, color ramp
+map_lat=47.615, map_lon=-122.257: defaults, can be overridden for centering the map
+map_zoom=8.5, wgs84=4326 : defaults, can be overriden, zoom level and projection
 ```{r}
 source('map_region.R')
 ```
 
-# Read in Data Table with a geographic field ID
+### 4.  Read in Data Table with a geographic field ID
 Prepare data to join with the geographic layer
 Note: you will need field names to match on
-
-
-### Get the data with numeric or categorical field and geographic id
 This example gets ACS 5-year data for Asian Groups by Tract.
-```{r, echo=FALSE}
+```{r, results=FALSE, message=FALSE, warning=FALSE}
 big_tbl <-psrccensus::get_acs_recs(geography='tract',table.names='B02015',year=2021, acs.type='acs5')
 ```
 
-### Clean up the data to join to the geographic layer
-```{r, echo=FALSE}
+### 5. Clean up the data in preparation to join to the geographic layer
+```{r}
 # read in data table and process data to join and map
-tbl <- big_tbl %>%filter(label=='Estimate!!Total:!!Chinese, except Taiwanese')%>% 
+tbl <- big_tbl %>%filter(label=='Estimate!!Total:!!Vietnamese')%>% 
   dplyr::select(GEOID,estimate) %>%
   dplyr::mutate(dplyr::across(c('GEOID'), as.character))%>%
   dplyr::group_by(GEOID) %>%
@@ -76,43 +76,44 @@ tbl <- big_tbl %>%filter(label=='Estimate!!Total:!!Chinese, except Taiwanese')%>
 ```
 
 
-##Read ElmerGeo geographic layer
+### 6. Read in ElmerGeo geographic layer
 
-```{r, echo=FALSE}
+```{r}
 tract_layer_name <- "TRACT2020_NOWATER"
 
 lyr <- st_read_elmergeo(tract_layer_name)
 ```
 
-Join to data table layer via matching IDs, choose the field to map
-```{r pressure, echo=FALSE}
+### 7. Join to data table layer via matching IDs, choose the field to map
+```{r }
 lyr_data<- dplyr::left_join(lyr,tbl, by = c("geoid20"="GEOID"))
 # this is the field to map
 lyr_datafield<-lyr_data$Total
 ```
 
 
-## Call the function to make the map
+### 8. Call the function to make the map.
 ```{r}
+# need to add a white color to ensure contrast
 psrc_purple_plus<-append(psrc_colors$purples_inc, "#FFFFFF", after=0)
 map_it<-create_psrc_map(lyr=lyr_data, 
                         lyr_data_field=lyr_data_field,
-                        legend_title= 'Chinese, except Taiwanese Population',
+                        legend_title= 'Vietnamese Population',
                         legend_subtitle = 'by Census Tract',
                         psrc_col_pal=psrc_purple_plus)
 
 map_it
 ```
 
-## Save the map as html
+### Step 9. (optional) Save the map as html
 ```{r}
-mapshot(map_it, url= "Chinese, except TaiwanesePop.html")
+mapshot(map_it, url= "VietnamesePop.html")
 ```
 
 
-## Save the map as png
+### Step 9. (optional) Save the map as html
 ```{r}
-mapshot(map_it, file= "Chinese, except TaiwanesePop.png")
+mapshot(map_it, file= "VietnamesePop.png")
 
 ```
 
