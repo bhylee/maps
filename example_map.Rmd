@@ -15,10 +15,15 @@ a geographic layer with a matching ID
 
 **User options:**
 Legend tile, Legend subtitle
-color ramo
+color ramp
 
+### 0. Set working directory to directory with code map_region.R
+```{r}
+setwd("C:/GitHub/psrc.map/")
+```
 
 ### 1. Read in mapping and helper libraries
+
 
 ```{r, results='hide', message=FALSE, warning=FALSE}
 library(sf) # geographic data library
@@ -43,6 +48,7 @@ Sys.getenv("CENSUS_API_KEY")
 This **map_region.R** file has a function called **create_psrc_map** to create a leaflet map for you
 
 ```{r}
+# should be in your working directory
 source('map_region.R')
 ```
 
