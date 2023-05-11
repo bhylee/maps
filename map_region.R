@@ -7,11 +7,11 @@ create_psrc_map <- function(lyr,
                             map_zoom=8.5, wgs84=4326){
   
   # psrc colors need more contrast to work
-  pal <- leaflet::colorNumeric(palette=psrc_col_pal, domain = lyr_datafield)
+  pal <- leaflet::colorNumeric(palette=psrc_col_pal, domain = lyr_data_field)
   
   #pal<-leaflet::colorNumeric(palette="Blues", domain = lyr_datafield)
   
-  labels <- paste0('Estimate: ', prettyNum(round(lyr_datafield, -1), big.mark = ",")) %>%
+  labels <- paste0('Estimate: ', prettyNum(round(lyr_data_field, -1), big.mark = ",")) %>%
     lapply(htmltools::HTML)
   
   m <- leaflet::leaflet() %>%
@@ -28,7 +28,7 @@ create_psrc_map <- function(lyr,
                                                onClick=leaflet::JS("function(btn, map){map.setView([47.615,-122.257],8.5); }"))) %>%
     leaflet::addPolygons(data=lyr,
                          fillOpacity = 0.7,
-                         fillColor = pal(lyr_datafield),
+                         fillColor = pal(lyr_data_field),
                          weight = 0.7,
                          color = "#BCBEC0",
                          group="estimate",
@@ -47,7 +47,7 @@ create_psrc_map <- function(lyr,
                            style = list("font-weight" = "normal", padding = "3px 8px", "font-family" ="Poppins"))) %>%
     
     leaflet::addLegend(pal = pal,
-                       values = lyr_datafield,
+                       values = lyr_data_field,
                        position = "bottomright",
                        title = paste(legend_title, '<br>', legend_subtitle)) %>%
     

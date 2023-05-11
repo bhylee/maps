@@ -17,8 +17,10 @@ a geographic layer with a matching ID
 Legend tile, Legend subtitle
 color ramp
 
-### 0. Set working directory to directory with code map_region.R
+### 0. Clone the repository https://github.com/psrc/psrc.map
+and set working directory to directory with code map_region.R
 ```{r}
+
 setwd("C:/GitHub/psrc.map/")
 ```
 
@@ -82,7 +84,7 @@ lyr <- st_read_elmergeo(tract_layer_name)
 ```{r }
 lyr_data<- dplyr::left_join(lyr,tbl, by = c("geoid20"="GEOID"))
 # this is the field to map
-lyr_datafield<-lyr_data$Total
+lyr_data_field<-lyr_data$Total
 ```
 
 
@@ -92,7 +94,7 @@ these are the function inputs:
 
 lyr: sf map layer, the geographic layer including the field you want to map
 
-lyr_data_field: string, the name of data field you want to map
+lyr_data_field: numeric vector of data values to map
 
 legend_title: string, The title in the legend
 
