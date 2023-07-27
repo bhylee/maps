@@ -1,9 +1,11 @@
 ---
 title: "Template to make PSRC leaflet map"
-author: "PSRC Data Science"
-date: "2023-05"
+author: "PSRC Data"
+date: "2023"
 output:
   pdf_document: default
+  html_document:
+    df_print: paged
 ---
 # How to quickly make a formatted map
 This template shows you how to make a map given a numeric or categorical data item with a geographic id and a shape file with the same ID.
@@ -20,7 +22,6 @@ color ramp
 ### 0. Clone the repository https://github.com/psrc/psrc.map
 and set working directory to directory with code map_region.R
 ```{r}
-
 setwd("C:/GitHub/psrc.map/")
 ```
 
@@ -33,6 +34,7 @@ library(dplyr) # for working with data frames
 library(psrcelmer) # to get data from Elmer
 library(psrcplot) # to get color schemes
 library(mapview) # for outputting the map to html or png
+library(htmlwidgets) # to help with map formatting
 ```
 
 
