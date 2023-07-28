@@ -16,7 +16,7 @@ a data table with a field to map and an ID,
 a geographic layer with a matching ID
 
 **User options:**
-Legend tile, Legend subtitle
+Legend title, Legend subtitle
 color ramp
 
 ### 0. Clone the repository https://github.com/psrc/psrc.map
@@ -59,7 +59,7 @@ source('map_region.R')
 ### 4.  Read in Data Table with a geographic field ID
 Prepare data to join with the geographic layer
 Note: you will need field names to match on
-This example gets ACS 5-year data for Asian Groups by Tract.
+This example gets ACS 5-year data for Asian Groups by Tract. For Asian Pacific Islander Month, we had observed that https://www.psrc.org/media/7650  https://www.psrc.org/media/7703 Vietnamese workers had some of the higher shares of driving to work and lower shares of teleworking. This may relate to the jobs sectors Vietnamese workers are part of. We wanted to look into where Vietnamese people live in region to better understand their commuting patterns. B2015: Asian Alone by Selected Group
 ```{r, results=FALSE, message=FALSE, warning=FALSE}
 big_tbl <-psrccensus::get_acs_recs(geography='tract',table.names='B02015',year=2021, acs.type='acs5')
 ```
